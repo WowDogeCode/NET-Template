@@ -13,21 +13,15 @@ namespace DataAccess.Repository
         private OnlineCourseDbContext _context;
         public EfRepositoryBase() { }
         public EfRepositoryBase(OnlineCourseDbContext context) => _context = context;
-        public void Add(TEntity entity) => _context.Add(entity);
-        public void Update(TEntity entity) => _context.Update(entity);
+        public void Add(TEntity entity) => _context.Set<TEntity>().Add(entity);
+        public void Update(TEntity entity) => _context.Set<TEntity>().Update(entity);
         public void Delete(int id)
         {
             var entity = _context.Set<TEntity>().Find(id);
             _context.Remove(entity);
         }
-        public List<TEntity> GetAll()
-        {
-            return _context.Set<TEntity>().ToList();
-        }
-        public TEntity GetById(int entityId)
-        {
-            return _context.Set<TEntity>().Find(entityId);
-        }
+        public List<TEntity> GetAll() => _context.Set<TEntity>().ToList();
+        public TEntity GetById(int entityId) => _context.Set<TEntity>().Find(entityId);
         public void Commit() => _context.SaveChanges();
     }
 }
