@@ -8,7 +8,10 @@ namespace DataAccess.Concrete
 {
     public class OnlineCourseDbContext : DbContext
     {
-        public OnlineCourseDbContext(DbContextOptions<OnlineCourseDbContext> contextOptions) : base(contextOptions) { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server = (localdb)\MSSQLLocalDB; Database = OnlineCourseDB; Trusted_Connection = true");
+        }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Tutor> Tutors { get; set; }

@@ -10,15 +10,13 @@ namespace DataAccess.Repository
     public class EfRepositoryBase<TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity, new()
     {
-        private OnlineCourseDbContext _context;
-        public EfRepositoryBase() { }
-        public EfRepositoryBase(OnlineCourseDbContext context) => _context = context;
+        private OnlineCourseDbContext _context = new OnlineCourseDbContext();
         public void Add(TEntity entity) => _context.Set<TEntity>().Add(entity);
         public void Update(TEntity entity) => _context.Set<TEntity>().Update(entity);
         public void Delete(int id)
         {
-            var entity = _context.Set<TEntity>().Find(id);
-            _context.Remove(entity);
+            var deletedEntity = _context.Set<TEntity>().Find(id);
+            _context.Remove(deletedEntity);
         }
         public List<TEntity> GetAll() => _context.Set<TEntity>().ToList();
         public TEntity GetById(int entityId) => _context.Set<TEntity>().Find(entityId);

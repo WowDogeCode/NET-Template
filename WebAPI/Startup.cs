@@ -28,8 +28,6 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<OnlineCourseDbContext>
-                (options => options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=OnlineCourseDB;Trusted_Connection=true"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
