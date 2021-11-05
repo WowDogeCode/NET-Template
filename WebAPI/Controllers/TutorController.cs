@@ -1,5 +1,5 @@
-﻿using DataAccess.Abstract;
-using DataAccess.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,43 +13,40 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class TutorController : ControllerBase
     {
-        private ITutorDal _tutorDal = new TutorDal();
+        private ITutorService _tutorService = new TutorManager();
 
         [HttpGet("tutors")]
         public IActionResult GetAllTutors()
         {
-            var tutors = _tutorDal.GetAll().ToList();
+            var tutors = _tutorService.GetTutors();
             return tutors != null ? Ok(tutors) : NotFound();
         }
 
         [HttpGet("tutor")]
         public IActionResult GetTutor(int id)
         {
-            var tutor = _tutorDal.GetById(id);
+            var tutor = _tutorService.GetTutorById(id);
             return tutor != null ? Ok(tutor) : NotFound();
         }
 
         [HttpPost("add")]
         public IActionResult AddTutor(Tutor tutor)
         {
-            _tutorDal.Add(tutor);
-            _tutorDal.Commit();
+            _tutorService.AddTutor(tutor);
             return Ok();
         }
 
         [HttpPost("save")]
         public IActionResult UpdateTutor(Tutor tutor)
         {
-            _tutorDal.Update(tutor);
-            _tutorDal.Commit();
+            _tutorService.UpdateTutor(tutor);
             return Ok();
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteTutor(int id)
         {
-            _tutorDal.Delete(id);
-            _tutorDal.Commit();
+            _tutorService.DeleteTutor(id);
             return Ok();
         }
     }

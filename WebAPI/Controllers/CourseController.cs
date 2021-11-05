@@ -1,5 +1,5 @@
-﻿using DataAccess.Abstract;
-using DataAccess.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,43 +13,41 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class CourseController : ControllerBase
     {
-        private ICourseDal _courseDal = new CourseDal();
+        private ICourseService _courseService = new CourseManager();
+
 
         [HttpGet("courses")]
         public IActionResult GetAllCourses()
         {
-            var courses = _courseDal.GetAll().ToList();
+            var courses = _courseService.GetAllCourses();
             return courses != null ? Ok(courses) : NotFound();
         }
 
         [HttpGet("course")]
         public IActionResult GetCourse(int id)
         {
-            var course = _courseDal.GetById(id);
+            var course = _courseService.GetCourseById(id);
             return course != null ? Ok(course) : NotFound();
         }
 
         [HttpPost("add")]
         public IActionResult AddCourse(Course course)
         {
-            _courseDal.Add(course);
-            _courseDal.Commit();
+            _courseService.AddCourse(course);
             return Ok();
         }
 
         [HttpPost("save")]
         public IActionResult UpdateCourse(Course course)
         {
-            _courseDal.Update(course);
-            _courseDal.Commit();
+            _courseService.UpdateCourse(course);
             return Ok();
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteCourse(int id)
         {
-            _courseDal.Delete(id);
-            _courseDal.Commit();
+            _courseService.DeleteCourse(id);
             return Ok();
         }
     }

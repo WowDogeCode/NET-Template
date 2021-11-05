@@ -1,5 +1,5 @@
-﻿using DataAccess.Abstract;
-using DataAccess.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,43 +13,40 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class StudentController : Controller
     {
-        private IStudentDal _studentDal = new StudentDal();
+        private IStudentService _studentService = new StudentManager();
 
         [HttpGet("students")]
         public IActionResult GetAllStudents()
         {
-            var students = _studentDal.GetAll();
+            var students = _studentService.GetAllStudents();
             return students != null ? Ok(students) : NotFound();
         }
 
         [HttpGet("student")]
         public IActionResult GetStudent(int id)
         {
-            var student = _studentDal.GetById(id);
+            var student = _studentService.GetStudentById(id);
             return student != null ? Ok(student) : NotFound();
         }
 
         [HttpPost("add")]
         public IActionResult AddStudent(Student student)
         {
-            _studentDal.Add(student);
-            _studentDal.Commit();
+            _studentService.AddStudent(student);
             return Ok();
         }
 
         [HttpPost("save")]
         public IActionResult UpdateStudent(Student student)
         {
-            _studentDal.Update(student);
-            _studentDal.Commit();
+            _studentService.UpdateStudent(student);
             return Ok();
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteStudent(int id)
         {
-            _studentDal.Delete(id);
-            _studentDal.Commit();
+            _studentService.DeleteStudent(id);
             return Ok();
         }
     }
