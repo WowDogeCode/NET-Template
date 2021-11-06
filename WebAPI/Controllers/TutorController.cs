@@ -13,7 +13,8 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class TutorController : ControllerBase
     {
-        private ITutorService _tutorService = new TutorManager();
+        private ITutorService _tutorService;
+        public TutorController(ITutorService tutorService) => _tutorService = tutorService;
 
         [HttpGet("tutors")]
         public IActionResult GetAllTutors()

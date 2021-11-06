@@ -1,3 +1,6 @@
+using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Abstract;
 using DataAccess.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +31,12 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddSingleton<ICourseService, CourseManager>();
+            services.AddSingleton<IStudentService, StudentManager>();
+            services.AddSingleton<ITutorService, TutorManager>();
+            services.AddSingleton<ICourseDal, CourseDal>();
+            services.AddSingleton<IStudentDal, StudentDal>();
+            services.AddSingleton<ITutorDal, TutorDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

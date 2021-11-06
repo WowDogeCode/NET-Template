@@ -13,7 +13,8 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class StudentController : Controller
     {
-        private IStudentService _studentService = new StudentManager();
+        private IStudentService _studentService;
+        public StudentController(IStudentService studentService) => _studentService = studentService;
 
         [HttpGet("students")]
         public IActionResult GetAllStudents()

@@ -12,7 +12,8 @@ namespace Business.Concrete
 {
     public class CourseManager : ICourseService
     {
-        private ICourseDal _courseDal = new CourseDal();
+        private ICourseDal _courseDal;
+        public CourseManager(ICourseDal courseDal) => _courseDal = courseDal;
 
         public void AddCourse(Course course)
         {

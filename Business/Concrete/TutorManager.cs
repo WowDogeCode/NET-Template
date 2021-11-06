@@ -12,7 +12,8 @@ namespace Business.Concrete
 {
     public class TutorManager : ITutorService
     {
-        private ITutorDal _tutorDal = new TutorDal();
+        private ITutorDal _tutorDal;
+        public TutorManager(ITutorDal tutorDal) => _tutorDal = tutorDal;
 
         public void AddTutor(Tutor tutor)
         {

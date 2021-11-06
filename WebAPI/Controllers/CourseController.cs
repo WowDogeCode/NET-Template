@@ -13,8 +13,8 @@ namespace WebAPI.Controllers
     [Route("[controller]")]
     public class CourseController : ControllerBase
     {
-        private ICourseService _courseService = new CourseManager();
-
+        private ICourseService _courseService;
+        public CourseController(ICourseService courseService) => _courseService = courseService;
 
         [HttpGet("courses")]
         public IActionResult GetAllCourses()

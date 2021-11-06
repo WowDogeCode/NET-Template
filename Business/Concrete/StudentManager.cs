@@ -12,7 +12,8 @@ namespace Business.Concrete
 {
     public class StudentManager : IStudentService
     {
-        private IStudentDal _studentDal = new StudentDal();
+        private IStudentDal _studentDal;
+        public StudentManager(IStudentDal studentDal) => _studentDal = studentDal;
 
         public void AddStudent(Student student)
         {
