@@ -11,7 +11,7 @@ namespace Entities.Concrete
         [Key]
         public int CourseId { get; set; }
         [Required]
-        public int CourseName { get; set; }
+        public string CourseName { get; set; }
         public Tutor Tutor { get; set; }
         public List<Student> Students { get; set; }
     }
