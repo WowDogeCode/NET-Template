@@ -1,4 +1,5 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Concrete;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.DTOs.Concrete;
 
 namespace WebAPI.Controllers
 {
@@ -14,20 +16,25 @@ namespace WebAPI.Controllers
     public class CourseController : ControllerBase
     {
         private ICourseService _courseService;
-        public CourseController(ICourseService courseService) => _courseService = courseService;
+        private IMapper _mapper;
 
+        public CourseController(ICourseService courseService, IMapper mapper)
+        {
+            _courseService = courseService;
+            _mapper = mapper;
+        }
         [HttpGet("courses")]
         public IActionResult GetAllCourses()
         {
             var courses = _courseService.GetAllCourses();
-            return courses != null ? Ok(courses) : NotFound();
+            return courses != null ? Ok(_mapper.Map<List<CourseDTO>>(courses)) : NotFound();
         }
 
         [HttpGet("course")]
         public IActionResult GetCourse(int id)
         {
             var course = _courseService.GetCourseById(id);
-            return course != null ? Ok(course) : NotFound();
+            return course != null ? Ok(_mapper.Map<CourseDTO> (course)) : NotFound();
         }
 
         [HttpPost("add")]
