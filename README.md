@@ -8,10 +8,12 @@ Train project in development. Online course platform project.
 # Technologies
 * Entity Framework
 * AutoMapper
+* Fluent Validation
 
 # TODO
-* Fluent Validation
-* Logging
 * Authentication
-* Front-end development with Angular or React.
+* Logging
 * Unit Tests
+* Docker
+* Front-end development with Angular or React.
+
