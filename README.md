@@ -7,6 +7,7 @@ Train project in development. Online course platform project.
 
 # Technologies
 * Entity Framework
+* AutoMapper
 
 # TODO
 * Fluent Validation
