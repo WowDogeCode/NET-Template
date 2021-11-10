@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Validation;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using Entities.Concrete;
@@ -13,10 +14,16 @@ namespace Business.Concrete
     public class CourseManager : ICourseService
     {
         private ICourseDal _courseDal;
+        private CourseValidator _validator = new CourseValidator();
         public CourseManager(ICourseDal courseDal) => _courseDal = courseDal;
 
         public void AddCourse(Course course)
         {
+            var result = _validator.Validate(course);
+            if(result.IsValid == false)
+            {
+                throw new Exception(result.Errors.First().ToString());
+            }
             _courseDal.Add(course);
             _courseDal.Commit();
         }
@@ -29,6 +36,11 @@ namespace Business.Concrete
         public Course GetCourseById(int id) => _courseDal.GetById(id);
         public void UpdateCourse(Course course)
         {
+            var result = _validator.Validate(course);
+            if(result.IsValid == false)
+            {
+                throw new Exception(result.Errors.First().ToString());
+            }
             _courseDal.Update(course);
             _courseDal.Commit();
         }

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Validation;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using Entities.Concrete;
@@ -13,10 +14,16 @@ namespace Business.Concrete
     public class TutorManager : ITutorService
     {
         private ITutorDal _tutorDal;
+        private TutorValidator _validator = new TutorValidator();
         public TutorManager(ITutorDal tutorDal) => _tutorDal = tutorDal;
 
         public void AddTutor(Tutor tutor)
         {
+            var result = _validator.Validate(tutor);
+            if (result.IsValid == false)
+            {
+                throw new Exception(result.Errors.First().ToString());
+            }
             _tutorDal.Add(tutor);
             _tutorDal.Commit();
         }
@@ -29,6 +36,11 @@ namespace Business.Concrete
         public List<Tutor> GetTutors() => _tutorDal.GetAll();
         public void UpdateTutor(Tutor tutor)
         {
+            var result = _validator.Validate(tutor);
+            if (result.IsValid == false)
+            {
+                throw new Exception(result.Errors.First().ToString());
+            }
             _tutorDal.Update(tutor);
             _tutorDal.Commit();
         }
