@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Validation;
-using DataAccess.Abstract;
-using DataAccess.Concrete;
+using DataAccess.Repository;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ namespace Business.Concrete
 {
     public class StudentManager : IStudentService
     {
-        private IStudentDal _studentDal;
+        private IRepository<Student> _repository;
         private StudentValidator _validator = new StudentValidator();
-        public StudentManager(IStudentDal studentDal) => _studentDal = studentDal;
+        public StudentManager(IRepository<Student> repository) => _repository = repository;
 
         public void AddStudent(Student student)
         {
@@ -24,16 +23,16 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _studentDal.Add(student);
-            _studentDal.Commit();
+            _repository.Add(student);
+            _repository.Commit();
         }
         public void DeleteStudent(int id)
         {
-            _studentDal.Delete(id);
-            _studentDal.Commit();
+            _repository.Delete(id);
+            _repository.Commit();
         }
-        public List<Student> GetAllStudents() => _studentDal.GetAll();
-        public Student GetStudentById(int id) => _studentDal.GetById(id);
+        public List<Student> GetAllStudents() => _repository.GetAll();
+        public Student GetStudentById(int id) => _repository.GetById(id);
         public void UpdateStudent(Student student)
         {
             var result = _validator.Validate(student);
@@ -41,8 +40,8 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _studentDal.Update(student);
-            _studentDal.Commit();
+            _repository.Update(student);
+            _repository.Commit();
         }
     }
 }

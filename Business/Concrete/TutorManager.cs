@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Validation;
-using DataAccess.Abstract;
-using DataAccess.Concrete;
+using DataAccess.Repository;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ namespace Business.Concrete
 {
     public class TutorManager : ITutorService
     {
-        private ITutorDal _tutorDal;
+        private IRepository<Tutor> _repository;
         private TutorValidator _validator = new TutorValidator();
-        public TutorManager(ITutorDal tutorDal) => _tutorDal = tutorDal;
+        public TutorManager(IRepository<Tutor> repository) => _repository = repository;
 
         public void AddTutor(Tutor tutor)
         {
@@ -24,16 +23,16 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _tutorDal.Add(tutor);
-            _tutorDal.Commit();
+            _repository.Add(tutor);
+            _repository.Commit();
         }
         public void DeleteTutor(int id)
         {
-            _tutorDal.Delete(id);
-            _tutorDal.Commit();
+            _repository.Delete(id);
+            _repository.Commit();
         }
-        public Tutor GetTutorById(int id) => _tutorDal.GetById(id);
-        public List<Tutor> GetTutors() => _tutorDal.GetAll();
+        public Tutor GetTutorById(int id) => _repository.GetById(id);
+        public List<Tutor> GetTutors() => _repository.GetAll();
         public void UpdateTutor(Tutor tutor)
         {
             var result = _validator.Validate(tutor);
@@ -41,8 +40,8 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _tutorDal.Update(tutor);
-            _tutorDal.Commit();
+            _repository.Update(tutor);
+            _repository.Commit();
         }
     }
 }

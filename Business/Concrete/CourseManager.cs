@@ -1,7 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Validation;
-using DataAccess.Abstract;
-using DataAccess.Concrete;
+using DataAccess.Repository;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
@@ -13,9 +12,9 @@ namespace Business.Concrete
 {
     public class CourseManager : ICourseService
     {
-        private ICourseDal _courseDal;
+        private IRepository<Course> _repository;
         private CourseValidator _validator = new CourseValidator();
-        public CourseManager(ICourseDal courseDal) => _courseDal = courseDal;
+        public CourseManager(IRepository<Course> repository) => _repository = repository;
 
         public void AddCourse(Course course)
         {
@@ -24,16 +23,16 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _courseDal.Add(course);
-            _courseDal.Commit();
+            _repository.Add(course);
+            _repository.Commit();
         }
         public void DeleteCourse(int id)
         {
-            _courseDal.Delete(id);
-            _courseDal.Commit();
+            _repository.Delete(id);
+            _repository.Commit();
         }
-        public List<Course> GetAllCourses() => _courseDal.GetAll();
-        public Course GetCourseById(int id) => _courseDal.GetById(id);
+        public List<Course> GetAllCourses() => _repository.GetAll();
+        public Course GetCourseById(int id) => _repository.GetById(id);
         public void UpdateCourse(Course course)
         {
             var result = _validator.Validate(course);
@@ -41,8 +40,8 @@ namespace Business.Concrete
             {
                 throw new Exception(result.Errors.First().ToString());
             }
-            _courseDal.Update(course);
-            _courseDal.Commit();
+            _repository.Update(course);
+            _repository.Commit();
         }
     }
 }
