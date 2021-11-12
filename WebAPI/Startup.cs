@@ -1,7 +1,7 @@
 using Business.Abstract;
 using Business.Concrete;
-using DataAccess.Abstract;
-using DataAccess.Concrete;
+using DataAccess;
+using DataAccess.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,12 +31,12 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<ICourseService, CourseManager>();
-            services.AddSingleton<IStudentService, StudentManager>();
-            services.AddSingleton<ITutorService, TutorManager>();
-            services.AddSingleton<ICourseDal, CourseDal>();
-            services.AddSingleton<IStudentDal, StudentDal>();
-            services.AddSingleton<ITutorDal, TutorDal>();
+            services.AddScoped<ICourseService, CourseManager>();
+            services.AddScoped<IStudentService, StudentManager>();
+            services.AddScoped<ITutorService, TutorManager>();
+            services.AddDbContext<OnlineCourseDbContext>
+                (options => options.UseSqlServer(@"Server = (localdb)\MSSQLLocalDB; Database = OnlineCourseDB; Trusted_Connection = true"));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepositoryBase<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
