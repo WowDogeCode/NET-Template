@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Results
+namespace Business.Results
 {
     public class ErrorDataResult<T> : DataResult<T>
     {

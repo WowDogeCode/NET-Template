@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Results
+namespace Business.Results
 {
-    public class DataResult<T> : Result
+    public class DataResult<T> : Result, IDataResult<T>
     {
         public DataResult(T data, bool successful, string message) : base(successful, message) => Data = data;
         public DataResult(T data, bool successful) : base(successful) => Data = data;
