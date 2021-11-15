@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Results;
 using Business.Validation;
 using DataAccess.Repository;
 using Entities.Concrete;
@@ -16,32 +17,35 @@ namespace Business.Concrete
         private CourseValidator _validator = new CourseValidator();
         public CourseManager(IRepository<Course> repository) => _repository = repository;
 
-        public void AddCourse(Course course)
+        public IResult AddCourse(Course course)
         {
             var result = _validator.Validate(course);
             if(result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Add(course);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public void DeleteCourse(int id)
+        public IResult DeleteCourse(int id)
         {
             _repository.Delete(id);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public List<Course> GetAllCourses() => _repository.GetAll();
-        public Course GetCourseById(int id) => _repository.GetById(id);
-        public void UpdateCourse(Course course)
+        public IDataResult<List<Course>> GetAllCourses() => new SuccessfulDataResult<List<Course>>(_repository.GetAll());
+        public IDataResult<Course> GetCourseById(int id) => new SuccessfulDataResult<Course>(_repository.GetById(id));
+        public IResult UpdateCourse(Course course)
         {
             var result = _validator.Validate(course);
             if(result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Update(course);
             _repository.Commit();
+            return new SuccessfulResult();
         }
     }
 }

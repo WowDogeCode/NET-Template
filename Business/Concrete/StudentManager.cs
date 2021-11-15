@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Results;
 using Business.Validation;
 using DataAccess.Repository;
 using Entities.Concrete;
@@ -16,32 +17,35 @@ namespace Business.Concrete
         private StudentValidator _validator = new StudentValidator();
         public StudentManager(IRepository<Student> repository) => _repository = repository;
 
-        public void AddStudent(Student student)
+        public IResult AddStudent(Student student)
         {
             var result = _validator.Validate(student);
             if (result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Add(student);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public void DeleteStudent(int id)
+        public IResult DeleteStudent(int id)
         {
             _repository.Delete(id);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public List<Student> GetAllStudents() => _repository.GetAll();
-        public Student GetStudentById(int id) => _repository.GetById(id);
-        public void UpdateStudent(Student student)
+        public IDataResult<List<Student>> GetAllStudents() => new SuccessfulDataResult<List<Student>>(_repository.GetAll());
+        public IDataResult<Student> GetStudentById(int id) => new SuccessfulDataResult<Student>(_repository.GetById(id));
+        public IResult UpdateStudent(Student student)
         {
             var result = _validator.Validate(student);
             if(result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Update(student);
             _repository.Commit();
+            return new SuccessfulResult();
         }
     }
 }

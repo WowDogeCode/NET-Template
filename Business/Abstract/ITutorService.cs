@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Business.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Business.Abstract
 {
     public interface ITutorService
     {
-        List<Tutor> GetTutors();
-        Tutor GetTutorById(int id);
-        void AddTutor(Tutor tutor);
-        void UpdateTutor(Tutor tutor);
-        void DeleteTutor(int id);
+        IDataResult<List<Tutor>> GetTutors();
+        IDataResult<Tutor> GetTutorById(int id);
+        IResult AddTutor(Tutor tutor);
+        IResult UpdateTutor(Tutor tutor);
+        IResult DeleteTutor(int id);
     }
 }

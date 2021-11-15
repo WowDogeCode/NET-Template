@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Results;
 using Business.Validation;
 using DataAccess.Repository;
 using Entities.Concrete;
@@ -16,32 +17,35 @@ namespace Business.Concrete
         private TutorValidator _validator = new TutorValidator();
         public TutorManager(IRepository<Tutor> repository) => _repository = repository;
 
-        public void AddTutor(Tutor tutor)
+        public IResult AddTutor(Tutor tutor)
         {
             var result = _validator.Validate(tutor);
             if (result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Add(tutor);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public void DeleteTutor(int id)
+        public IResult DeleteTutor(int id)
         {
             _repository.Delete(id);
             _repository.Commit();
+            return new SuccessfulResult();
         }
-        public Tutor GetTutorById(int id) => _repository.GetById(id);
-        public List<Tutor> GetTutors() => _repository.GetAll();
-        public void UpdateTutor(Tutor tutor)
+        public IDataResult<Tutor> GetTutorById(int id) => new SuccessfulDataResult<Tutor>(_repository.GetById(id));
+        public IDataResult<List<Tutor>> GetTutors() => new SuccessfulDataResult<List<Tutor>>(_repository.GetAll());
+        public IResult UpdateTutor(Tutor tutor)
         {
             var result = _validator.Validate(tutor);
             if (result.IsValid == false)
             {
-                throw new Exception(result.Errors.First().ToString());
+                return new ErrorResult(result.Errors.First().ToString());
             }
             _repository.Update(tutor);
             _repository.Commit();
+            return new SuccessfulResult();
         }
     }
 }

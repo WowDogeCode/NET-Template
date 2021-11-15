@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Business.Results;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Business.Abstract
 {
     public interface IStudentService 
     {
-        List<Student> GetAllStudents();
-        Student GetStudentById(int id);
-        void AddStudent(Student student);
-        void UpdateStudent(Student student);
-        void DeleteStudent(int id);
+        IDataResult<List<Student>> GetAllStudents();
+        IDataResult<Student> GetStudentById(int id);
+        IResult AddStudent(Student student);
+        IResult UpdateStudent(Student student);
+        IResult DeleteStudent(int id);
     }
 }
