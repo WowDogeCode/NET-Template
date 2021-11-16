@@ -26,36 +26,36 @@ namespace WebAPI.Controllers
         [HttpGet("courses")]
         public IActionResult GetAllCourses()
         {
-            var courses = _courseService.GetAllCourses();
-            return courses != null ? Ok(_mapper.Map<List<CourseDTO>>(courses)) : NotFound();
+            var result = _courseService.GetAllCourses();
+            return result.Successful ? Ok(_mapper.Map<List<CourseDTO>>(result.Data)) : NotFound(result.Message);
         }
 
         [HttpGet("course")]
         public IActionResult GetCourse(int id)
         {
-            var course = _courseService.GetCourseById(id);
-            return course != null ? Ok(_mapper.Map<CourseDTO> (course)) : NotFound();
+            var result = _courseService.GetCourseById(id);
+            return result.Successful ? Ok(_mapper.Map<CourseDTO>(result.Data)) : NotFound(result.Message);
         }
 
         [HttpPost("add")]
         public IActionResult AddCourse(Course course)
         {
-            _courseService.AddCourse(course);
-            return Ok();
+            var result = _courseService.AddCourse(course);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("save")]
         public IActionResult UpdateCourse(Course course)
         {
-            _courseService.UpdateCourse(course);
-            return Ok();
+            var result = _courseService.UpdateCourse(course);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteCourse(int id)
         {
-            _courseService.DeleteCourse(id);
-            return Ok();
+            var result = _courseService.DeleteCourse(id);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
     }
 }

@@ -26,36 +26,36 @@ namespace WebAPI.Controllers
         [HttpGet("tutors")]
         public IActionResult GetAllTutors()
         {
-            var tutors = _tutorService.GetTutors();
-            return tutors != null ? Ok(_mapper.Map<List<TutorDTO>> (tutors)) : NotFound();
+            var result = _tutorService.GetTutors();
+            return result.Successful ? Ok(_mapper.Map<List<TutorDTO>> (result.Data)) : NotFound(result.Message);
         }
 
         [HttpGet("tutor")]
         public IActionResult GetTutor(int id)
         {
-            var tutor = _tutorService.GetTutorById(id);
-            return tutor != null ? Ok(_mapper.Map<TutorDTO> (tutor)) : NotFound();
+            var result = _tutorService.GetTutorById(id);
+            return result.Successful ? Ok(_mapper.Map<TutorDTO> (result.Data)) : NotFound(result.Message);
         }
 
         [HttpPost("add")]
         public IActionResult AddTutor(Tutor tutor)
         {
-            _tutorService.AddTutor(tutor);
-            return Ok();
+            var result = _tutorService.AddTutor(tutor);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("save")]
         public IActionResult UpdateTutor(Tutor tutor)
         {
-            _tutorService.UpdateTutor(tutor);
-            return Ok();
+            var result = _tutorService.UpdateTutor(tutor);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteTutor(int id)
         {
-            _tutorService.DeleteTutor(id);
-            return Ok();
+            var result = _tutorService.DeleteTutor(id);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
     }
 }

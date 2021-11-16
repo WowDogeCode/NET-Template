@@ -26,36 +26,36 @@ namespace WebAPI.Controllers
         [HttpGet("students")]
         public IActionResult GetAllStudents()
         {
-            var students = _studentService.GetAllStudents();
-            return students != null ? Ok(_mapper.Map<List<StudentDTO>> (students)) : NotFound();
+            var result = _studentService.GetAllStudents();
+            return result.Successful ? Ok(_mapper.Map<List<StudentDTO>> (result.Data)) : NotFound(result.Message);
         }
 
         [HttpGet("student")]
         public IActionResult GetStudent(int id)
         {
-            var student = _studentService.GetStudentById(id);
-            return student != null ? Ok(_mapper.Map<StudentDTO> (student)) : NotFound();
+            var result = _studentService.GetStudentById(id);
+            return result.Successful ? Ok(_mapper.Map<StudentDTO> (result.Data)) : NotFound(result.Message);
         }
 
         [HttpPost("add")]
         public IActionResult AddStudent(Student student)
         {
-            _studentService.AddStudent(student);
-            return Ok();
+            var result = _studentService.AddStudent(student);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("save")]
         public IActionResult UpdateStudent(Student student)
         {
-            _studentService.UpdateStudent(student);
-            return Ok();
+            var result = _studentService.UpdateStudent(student);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
 
         [HttpPost("delete")]
         public IActionResult DeleteStudent(int id)
         {
-            _studentService.DeleteStudent(id);
-            return Ok();
+            var result = _studentService.DeleteStudent(id);
+            return result.Successful ? Ok(result.Message) : BadRequest(result.Message);
         }
     }
 }
