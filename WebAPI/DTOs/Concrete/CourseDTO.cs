@@ -9,8 +9,8 @@ namespace WebAPI.DTOs.Concrete
 {
     public class CourseDTO : IDto
     {
-        public int CourseId { get; set; }
         public string CourseName { get; set; }
+        public double Price { get; set; }
         public Tutor Tutor { get; set; }
         public List<Student> Students { get; set; }
     }

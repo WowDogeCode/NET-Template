@@ -12,6 +12,7 @@ namespace Entities.Concrete
         public int CourseId { get; set; }
         [Required]
         public string CourseName { get; set; }
+        public double Price { get; set; }
         public Tutor Tutor { get; set; }
         public List<Student> Students { get; set; }
     }

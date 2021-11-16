@@ -11,9 +11,8 @@ namespace Entities.Concrete
         [Key]
         public int StudentId { get; set; }
         [Required]
-        public string UserName { get; set; }
-        [Required]
-        public string UserPassword { get; set; }
+        public string StudentName { get; set; }
+        public double Balance { get; set; }
         public List<Course> Courses { get; set; }
     }
 }

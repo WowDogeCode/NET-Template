@@ -14,6 +14,8 @@ namespace Business.Validation
         {
             RuleFor(course => course.CourseName).Length(5 - 30)
                 .WithMessage("{PropertyName} length must be between 5-30 characters");
+            RuleFor(course => course.Price).GreaterThanOrEqualTo(0)
+                .WithMessage("{PropertyName} can't be a negative value.");
         }
     }
 }
